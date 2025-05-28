@@ -49,18 +49,18 @@ const TaskForm = () => {
       <h2>Add Task</h2>
       <form onSubmit={handleSubmit}>
         <Row>
-        {[
-          "title",
-          "titleUrl",
-          "heading",
-          "description",
-          "keywords",
-          "content",
-        ].map((field) => (
-          <Col lg={6}>
-          <div className="form-group" key={field}>
-            <label>{field}</label>
-            {/* {field === "description" || field === "content" ? (
+          {[
+            "Title",
+            "Title-Url",
+            "Heading",
+            "Description",
+            "Keywords",
+            "Content",
+          ].map((field) => (
+            <Col lg={6}>
+              <div className="form-group" key={field}>
+                <label>{field}</label>
+                {/* {field === "description" || field === "content" ? (
               <textarea
                 name={field}
                 value={formData[field]}
@@ -74,35 +74,43 @@ const TaskForm = () => {
                 onChange={handleChange}
               />
             )} */}
-               <input
-                type="text"
-                name={field}
-                value={formData[field]}
-                onChange={handleChange}
+                <input
+                  type="text"
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                />
+              </div>
+            </Col>
+          ))}
+          <Col lg={6}>
+            <div className="form-group">
+              <label>Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
               />
-          </div>
+            </div>
           </Col>
-        ))}
-      <Col lg={6}>
-        <div className="form-group">
-          <label>Image</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-        </div>
-        </Col>
-        <Col lg={6}>
-        <div className="form-group">
-          <label>Status</label>
-          <select name="status" value={formData.status} onChange={handleChange}>
-            <option value="inactive">Inactive</option>
-            <option value="active">Active</option>
-          </select>
-        </div>
-        </Col>
+          <Col lg={6}>
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="inactive">Inactive</option>
+                <option value="active">Active</option>
+              </select>
+            </div>
+          </Col>
 
-        <button type="submit" className="submit-btn">
-          Submit
-        </button>
-        {success && <p className="success-message">✅ Task added!</p>}
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
+          {success && <p className="success-message">✅ Task added!</p>}
         </Row>
       </form>
     </div>
