@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/TaskForm.css";
+import { Col, Row } from "react-bootstrap";
 
 const TaskForm = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +48,7 @@ const TaskForm = () => {
     <div className="form-container">
       <h2>Add Task</h2>
       <form onSubmit={handleSubmit}>
+        <Row>
         {[
           "title",
           "titleUrl",
@@ -55,9 +57,10 @@ const TaskForm = () => {
           "keywords",
           "content",
         ].map((field) => (
+          <Col lg={6}>
           <div className="form-group" key={field}>
             <label>{field}</label>
-            {field === "description" || field === "content" ? (
+            {/* {field === "description" || field === "content" ? (
               <textarea
                 name={field}
                 value={formData[field]}
@@ -70,15 +73,23 @@ const TaskForm = () => {
                 value={formData[field]}
                 onChange={handleChange}
               />
-            )}
+            )} */}
+               <input
+                type="text"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+              />
           </div>
+          </Col>
         ))}
-
+      <Col lg={6}>
         <div className="form-group">
           <label>Image</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
-
+        </Col>
+        <Col lg={6}>
         <div className="form-group">
           <label>Status</label>
           <select name="status" value={formData.status} onChange={handleChange}>
@@ -86,11 +97,13 @@ const TaskForm = () => {
             <option value="active">Active</option>
           </select>
         </div>
+        </Col>
 
         <button type="submit" className="submit-btn">
           Submit
         </button>
         {success && <p className="success-message">✅ Task added!</p>}
+        </Row>
       </form>
     </div>
   );
