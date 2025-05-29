@@ -1,19 +1,10 @@
 const express = require("express");
-const { Auth } = require("../middlewares/auth");
-const {
-  AddTask,
-  GetTasks,
-  UpdateTask,
-  DeleteTask,
-} = require("../controllers/task");
+const { AddBlog, GetBlogs } = require("../controllers/blog");
 const uploadMiddleware = require("../middlewares/upload.middleware");
 
 const blogRouter = express.Router();
 
-// blogRouter.post("/add/task", Auth, AddTask);
-blogRouter.post("/add/task", uploadMiddleware, AddTask);
-// blogRouter.get("/get/task", Auth, GetTasks);
-// blogRouter.put("/update/task/:taskId", Auth, UpdateTask);
-// blogRouter.delete("/delete/task/:taskId", Auth, DeleteTask);
+blogRouter.post("/add/blog", uploadMiddleware, AddBlog);
+blogRouter.get("/get/allblogs", GetBlogs);
 
 module.exports = blogRouter;

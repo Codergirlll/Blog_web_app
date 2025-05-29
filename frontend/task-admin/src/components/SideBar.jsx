@@ -1,8 +1,8 @@
-import { Nav } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Nav } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <>
@@ -10,23 +10,23 @@ const Sidebar = () => {
       <Nav className="flex-column">
         <Nav.Link
           as={Link}
-          to="/add-post"
-          active={location.pathname === '/add-post'}
+          to="/add-blog"
+          active={location.pathname === "/add-blog"}
           className="text-light"
         >
-          Add Post
+          Add Blog
         </Nav.Link>
         <Nav.Link
           as={Link}
-          to="/all-posts"
-          active={location.pathname === '/all-posts'}
+          to="/all-blogs"
+          active={location.pathname === "/all-blogs"}
           className="text-light"
         >
-          All Posts
+          All Blogs
         </Nav.Link>
       </Nav>
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

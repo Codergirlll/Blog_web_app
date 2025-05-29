@@ -2,7 +2,7 @@ const BlogModel = require("../db/models/blog.model");
 let taskIdCounter = 1;
 
 // For adding the task
-exports.AddTask = async (req, res, next) => {
+exports.AddBlog = async (req, res, next) => {
   console.log("hello AddUser", req.body);
   try {
     let { title, titleUrl, heading, description, keywords, content, status } =
@@ -43,39 +43,15 @@ exports.AddTask = async (req, res, next) => {
 };
 
 // for getting all tasks of the user
-exports.GetTasks = async (req, res, next) => {
-  // console.log("hello GetUser", req.user);
+exports.GetBlogs = async (req, res, next) => {
   try {
-    const findQuery = { userId: req.user.userId };
+    const GetAllBlogs = await BlogModel.find();
 
-    // Pagination and filtering logic
-    const { status, page = 1, limit = 10 } = req.query;
-
-    if (status) {
-      findQuery.status = status;
-    }
-    const GetAllTask = await BlogModel.find(findQuery)
-      .skip((page - 1) * limit)
-      .limit(Number(limit))
-      .sort({ dueDate: 1 });
-
-    // // Add reminder info
-    // const now = new Date();
-    // const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
-    // const ReminderTask = GetAllTask.map(task => {
-    //   const isDueSoon = task.dueDate <= next24Hours && task.dueDate >= now;
-    //   return { ...task.toObject(), isDueSoon };
-    // });
-
-    console.log(GetAllTask);
+    console.log(GetAllBlogs);
     res.status(200).json({
       status: true,
       message: "Getting All Tasks",
-      totalPages: Math.ceil(GetAllTask.length / limit),
-      page,
-      // ReminderTask,
-      GetAllTask,
+      GetAllBlogs,
     });
   } catch (err) {
     // console.log("error At add Tasks: ", err);
