@@ -1,32 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { GetAllBlogs } from "../api/blog.api";
+import { DeleteBlog, GetAllBlogs } from "../api/blog.api";
 
 const AllBlog = () => {
   const [blogs, setBlogs] = useState([]);
 
+  const fetchBlogs = async () => {
+    try {
+      const data = await GetAllBlogs();
+      setBlogs(data.data.GetAllBlogs);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const data = await GetAllBlogs();
-        setBlogs(data.data.GetAllBlogs);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
-
-    fetchBlogs();
+    fetchBlogs(); // ✅ Run only once
   }, []);
-
-  console.log("blogs: ", blogs);
 
   const handleEdit = (blog) => {
     alert(`Edit blog: ${blog.title}`);
     // Implement your edit logic here
   };
 
-  const handleDelete = (id) => {
-    alert(`Delete blog with ID: ${id}`);
-    // Implement your delete logic here
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this blog?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const data = await DeleteBlog(id);
+      console.log("Delete response", data);
+      if (data.status) {
+        const updatedBlogs = blogs.filter((item) => item._id !== id);
+        setBlogs(updatedBlogs);
+      }
+    } catch (error) {
+      console.error("Error Deleting blog:", error);
+    }
   };
 
   return (
@@ -44,12 +55,12 @@ const AllBlog = () => {
         </thead>
         <tbody>
           {blogs.length > 0 &&
-            blogs?.map((blog) => (
-              <tr key={blog?._id}>
-                <td style={styles.td}>{blog?._id}</td>
-                <td style={styles.td}>{blog?.title}</td>
-                <td style={styles.td}>{blog?.titleUrl}</td>
-                <td style={styles.td}>{blog?.status}</td>
+            blogs.map((blog) => (
+              <tr key={blog._id}>
+                <td style={styles.td}>{blog._id}</td>
+                <td style={styles.td}>{blog.title}</td>
+                <td style={styles.td}>{blog.titleUrl}</td>
+                <td style={styles.td}>{blog.status}</td>
                 <td style={styles.td}>
                   <button
                     style={styles.editBtn}
@@ -72,7 +83,7 @@ const AllBlog = () => {
   );
 };
 
-// Inline styles for simplicity
+// Inline styles (same as before)
 const styles = {
   container: {
     padding: "20px",

@@ -107,26 +107,26 @@ exports.UpdateTask = async (req, res, next) => {
 };
 
 // for deleting the task
-exports.DeleteTask = async (req, res, next) => {
-  console.log("User Info: ", req.user.userId);
-  console.log("Delete Task, id: ", req.params.taskId);
+exports.DeleteBlog = async (req, res, next) => {
+  // console.log("User Info: ", req.user.userId);
+  console.log("Delete Task, id: ", req.params.blogId);
 
   try {
     const deleteTask = await BlogModel.findOneAndDelete({
-      id: req.params.taskId,
-      userId: req.user.userId,
+      _id: req.params.blogId,
+      // userId: req.user.userId,
     });
 
     if (!deleteTask) {
       return res.status(404).json({
         status: false,
-        message: "Task not found",
+        message: "Blog not found",
       });
     }
 
     res.status(200).json({
       status: true,
-      message: "Task deleted Successfully",
+      message: "Blog deleted Successfully",
       deleteTask,
     });
   } catch (err) {

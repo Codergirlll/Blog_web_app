@@ -45,3 +45,21 @@ exports.GetAllBlogs = async () => {
     return { success: false, error: error.message };
   }
 };
+
+exports.DeleteBlog = async (blogId) => {
+  try {
+    const res = await fetch(`${ServerURL}/blog/delete/${blogId}`, {
+      method: "DELETE",
+    });
+
+    // if (!res.ok) {
+    //   throw new Error("Failed to Delete Blog");
+    // }
+
+    const data = await res.json();
+    return { success: true, data };
+  } catch (error) {
+    console.error("API error:", error);
+    return { success: false, error: error.message };
+  }
+};
