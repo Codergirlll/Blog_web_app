@@ -1,7 +1,6 @@
 const BlogModel = require("../db/models/blog.model");
 let taskIdCounter = 1;
 
-// For adding the task
 exports.AddBlog = async (req, res, next) => {
   console.log("hello AddUser", req.body);
   try {
@@ -42,7 +41,6 @@ exports.AddBlog = async (req, res, next) => {
   }
 };
 
-// for getting all tasks of the user
 exports.GetBlogs = async (req, res, next) => {
   try {
     const GetAllBlogs = await BlogModel.find();
@@ -64,36 +62,17 @@ exports.GetBlogs = async (req, res, next) => {
   }
 };
 
-// for updating the task
-exports.UpdateTask = async (req, res, next) => {
-  console.log("User Info: ", req.user.userId);
-  console.log("Update Task, id: ", req.params.taskId);
+exports.GetBlogById = async (req, res, next) => {
+  console.log("req.params: ", req.params);
 
   try {
-    const { title, description, status, dueDate } = req.body;
+    const GetBlogById = await BlogModel.findById(req.params.blogId);
 
-    const updateTask = await BlogModel.findOneAndUpdate(
-      { id: req.params.taskId, userId: req.user.userId },
-      {
-        title,
-        description,
-        status,
-        dueDate,
-      },
-      { new: true }
-    );
-
-    if (!updateTask) {
-      return res.status(404).json({
-        status: false,
-        message: "Task not found",
-      });
-    }
-
+    console.log(GetBlogById);
     res.status(200).json({
       status: true,
-      message: "Task updated Successfully",
-      updateTask,
+      message: "Getting Blog by BlogID",
+      GetBlogById,
     });
   } catch (err) {
     // console.log("error At add Tasks: ", err);
@@ -106,7 +85,6 @@ exports.UpdateTask = async (req, res, next) => {
   }
 };
 
-// for deleting the task
 exports.DeleteBlog = async (req, res, next) => {
   // console.log("User Info: ", req.user.userId);
   console.log("Delete Task, id: ", req.params.blogId);
@@ -128,6 +106,61 @@ exports.DeleteBlog = async (req, res, next) => {
       status: true,
       message: "Blog deleted Successfully",
       deleteTask,
+    });
+  } catch (err) {
+    // console.log("error At add Tasks: ", err);
+
+    // res.status(500).json({
+    //   status: false,
+    //   message: "Server Error!!",
+    // });
+    next(err);
+  }
+};
+
+exports.UpdateBlog = async (req, res, next) => {
+  console.log("Update Task, id: ", req.params.blogId);
+  console.log("Update Task, id: ", req.body);
+
+  try {
+    let { title, titleUrl, heading, description, keywords, content, status } =
+      req.body;
+
+    // for seprating the keywords by ','
+    keywords = keywords.split(",");
+
+    // for blog image Url
+    const imageUrl = req.file?.path;
+
+    const updateBlog = await BlogModel.findOneAndUpdate(
+      {
+        _id: req.params.blogId,
+        //  userId: req.user.userId
+      },
+      {
+        title,
+        titleUrl,
+        heading,
+        description,
+        keywords,
+        img: imageUrl,
+        content,
+        status,
+      },
+      { new: true }
+    );
+
+    if (!updateBlog) {
+      return res.status(404).json({
+        status: false,
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: "Blog updated Successfully",
+      updateBlog,
     });
   } catch (err) {
     // console.log("error At add Tasks: ", err);

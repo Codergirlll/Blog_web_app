@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/SideBar";
 import BlogForm from "./components/BlogForm";
 import AllBlog from "./components/AllBlog";
+import EditForm from "./components/EditBlog";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<BlogForm />} />
             <Route path="/add-blog" element={<BlogForm />} />
             <Route path="/all-blogs" element={<AllBlog />} />
+            <Route path="/edit-blog/:id" element={<EditForm />} />
           </Routes>
         </Col>
       </Row>

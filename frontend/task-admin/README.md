@@ -1,3 +1,2 @@
-edit
 login
 deployed

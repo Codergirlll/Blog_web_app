@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/TaskForm.css";
 import { Col, Row } from "react-bootstrap";
-import { AddBlog } from "../api/blog.api";
+import { GetBlogById, UpdateBlog } from "../api/blog.api";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { useNavigate, useParams } from "react-router-dom";
 
-const BlogForm = () => {
+const EditForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     titleUrl: "",
@@ -19,10 +20,13 @@ const BlogForm = () => {
   const [imgFile, setImgFile] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const { id } = useParams();
+  console.log("koijuytfrdfg: ", id);
 
   const handleImageChange = (e) => {
     setImgFile(e.target.files[0]);
@@ -31,11 +35,12 @@ const BlogForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await AddBlog(formData, imgFile);
+    console.log("formData: ", formData);
 
-    if (result.success) {
+    const updateBlog = await UpdateBlog(id, formData, imgFile);
+    console.log("updateBlog: ", updateBlog);
+    if (updateBlog.success) {
       setSuccess(true);
-      alert("✅ Blog added!");
       setFormData({
         title: "",
         titleUrl: "",
@@ -45,15 +50,31 @@ const BlogForm = () => {
         content: "",
         status: "inactive",
       });
-      setImgFile(null);
+      // setImgFile(null);
+      alert("✅ Blog Edit Successfully!");
+      navigate("/all-blogs");
     } else {
-      alert(`❌ ${result.error || "Submission failed"}`);
+      alert(`❌ ${updateBlog.error || "Submission failed"}`);
     }
+    setFormData(updateBlog.updateData.updateBlog);
   };
 
+  const getBlog = async () => {
+    try {
+      const data = await GetBlogById(id);
+      console.log("data: ", data);
+      setFormData(data.data.GetBlogById);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+  useEffect(() => {
+    getBlog(); // ✅ Run only once
+    console.log("getBlog: ", getBlog);
+  }, []);
   return (
     <div className="form-container">
-      <h2>Add Task</h2>
+      <h2>Edit Task</h2>
       <form onSubmit={handleSubmit}>
         <Row>
           {["title", "titleUrl", "heading", "description", "keywords"].map(
@@ -116,7 +137,9 @@ const BlogForm = () => {
             <button type="submit" className="submit-btn">
               Submit
             </button>
-            {/* {success && <p className="success-message">✅ Blog added!</p>} */}
+            {success && (
+              <p className="success-message">✅ Blog Edit Successfully!</p>
+            )}
           </Col>
         </Row>
       </form>
@@ -124,4 +147,4 @@ const BlogForm = () => {
   );
 };
 
-export default BlogForm;
+export default EditForm;

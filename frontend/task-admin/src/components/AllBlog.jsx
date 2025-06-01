@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { DeleteBlog, GetAllBlogs } from "../api/blog.api";
+import { useNavigate } from "react-router-dom";
 
 const AllBlog = () => {
   const [blogs, setBlogs] = useState([]);
+  const navigate = useNavigate();
 
   const fetchBlogs = async () => {
     try {
@@ -17,9 +19,15 @@ const AllBlog = () => {
     fetchBlogs(); // ✅ Run only once
   }, []);
 
-  const handleEdit = (blog) => {
-    alert(`Edit blog: ${blog.title}`);
-    // Implement your edit logic here
+  const handleEdit = async (id) => {
+    const confirmEdit = window.confirm(
+      "Are you sure you want to edit this blog post?"
+    );
+    if (confirmEdit) {
+      navigate(`/edit-blog/${id}`);
+    }
+
+    // navigate(`/edit-blog/${id}`);
   };
 
   const handleDelete = async (id) => {
@@ -64,7 +72,7 @@ const AllBlog = () => {
                 <td style={styles.td}>
                   <button
                     style={styles.editBtn}
-                    onClick={() => handleEdit(blog)}
+                    onClick={() => handleEdit(blog._id)}
                   >
                     Edit
                   </button>
