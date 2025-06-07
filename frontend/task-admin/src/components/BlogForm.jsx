@@ -34,7 +34,7 @@ const BlogForm = () => {
     const result = await AddBlog(formData, imgFile);
 
     if (result.success) {
-      setSuccess(true);
+      // setSuccess(true);
       alert("✅ Blog added!");
       setFormData({
         title: "",
