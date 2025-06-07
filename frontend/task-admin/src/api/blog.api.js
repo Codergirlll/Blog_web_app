@@ -1,4 +1,5 @@
-const ServerURL = `http://localhost:4000/api/v1`;
+const ServerURL = `${"https://blog-web-app-aw8y.onrender.com"}/api/v1`;
+// const ServerURL = `http://localhost:4000/api/v1`;
 
 exports.AddBlog = async (formData, imgFile) => {
   const data = new FormData();

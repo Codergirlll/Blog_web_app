@@ -17,7 +17,7 @@ const BlogForm = () => {
   });
 
   const [imgFile, setImgFile] = useState(null);
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
