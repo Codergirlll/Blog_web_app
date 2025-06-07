@@ -54,7 +54,7 @@ const AllBlog = () => {
       <table style={styles.table}>
         <thead>
           <tr>
-            <th style={styles.th}>ID</th>
+            {/* <th style={styles.th}>ID</th> */}
             <th style={styles.th}>Title</th>
             <th style={styles.th}>Title URL</th>
             <th style={styles.th}>Status</th>
@@ -65,7 +65,7 @@ const AllBlog = () => {
           {blogs.length > 0 &&
             blogs.map((blog) => (
               <tr key={blog._id}>
-                <td style={styles.td}>{blog._id}</td>
+                {/* <td style={styles.td}>{blog._id}</td> */}
                 <td style={styles.td}>{blog.title}</td>
                 <td style={styles.td}>{blog.titleUrl}</td>
                 <td style={styles.td}>{blog.status}</td>
@@ -112,6 +112,7 @@ const styles = {
     padding: "12px",
     backgroundColor: "#f4f4f4",
     textAlign: "left",
+    color: "#000",
   },
   td: {
     border: "1px solid #ccc",
