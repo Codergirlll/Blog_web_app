@@ -6,7 +6,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <h4 className="text-light mb-4">Admin Panel</h4>
+      <h4 className="text-light mb-4">Blog Admin Panel</h4>
       <Nav className="flex-column">
         <Nav.Link
           as={Link}
