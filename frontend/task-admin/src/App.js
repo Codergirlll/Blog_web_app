@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<BlogForm />} />
             <Route path="/add-blog" element={<BlogForm />} />
             <Route path="/all-blogs" element={<AllBlog />} />
-            <Route path="/edit-blog/:id" element={<EditForm />} />
+            <Route path="/edit-blog/:titleUrl" element={<EditForm />} />
           </Routes>
         </Col>
       </Row>

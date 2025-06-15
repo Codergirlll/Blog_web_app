@@ -17,23 +17,23 @@ const AllBlog = () => {
     }
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = (titleUrl) => {
     const confirmEdit = window.confirm(
       "Are you sure you want to edit this blog post?"
     );
-    if (confirmEdit) navigate(`/edit-blog/${id}`);
+    if (confirmEdit) navigate(`/edit-blog/${titleUrl}`);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (titleUrl) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this blog?"
     );
     if (!confirmDelete) return;
 
     try {
-      const data = await DeleteBlog(id);
+      const data = await DeleteBlog(titleUrl);
       if (data.status) {
-        const updatedBlogs = blogs.filter((item) => item._id !== id);
+        const updatedBlogs = blogs.filter((item) => item.titleUrl !== titleUrl);
         setBlogs(updatedBlogs);
         setUpdateStatus(true);
         alert("🗑️ Blog deleted successfully!");
@@ -80,14 +80,14 @@ const AllBlog = () => {
                       variant="primary"
                       size="sm"
                       className="me-2"
-                      onClick={() => handleEdit(blog._id)}
+                      onClick={() => handleEdit(blog.titleUrl)}
                     >
                       ✏️ Edit
                     </Button>
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() => handleDelete(blog._id)}
+                      onClick={() => handleDelete(blog.titleUrl)}
                     >
                       🗑️ Delete
                     </Button>

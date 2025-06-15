@@ -19,7 +19,7 @@ const EditForm = () => {
   const [imgFile, setImgFile] = useState(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { titleUrl } = useParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +32,7 @@ const EditForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updateBlog = await UpdateBlog(id, formData, imgFile);
+    const updateBlog = await UpdateBlog(titleUrl, formData, imgFile);
     if (updateBlog.success) {
       setSuccess(true);
       alert("✅ Blog updated successfully!");
@@ -44,7 +44,7 @@ const EditForm = () => {
 
   const getBlog = async () => {
     try {
-      const data = await GetBlogById(id);
+      const data = await GetBlogById(titleUrl);
       setFormData(data.data.GetBlogById);
     } catch (error) {
       console.error("Error fetching blog:", error);

@@ -61,9 +61,9 @@ exports.GetBlogById = async (blogId) => {
   }
 };
 
-exports.DeleteBlog = async (blogId) => {
+exports.DeleteBlog = async (titleUrl) => {
   try {
-    const res = await fetch(`${ServerURL}/blog/delete/${blogId}`, {
+    const res = await fetch(`${ServerURL}/blog/delete/${titleUrl}`, {
       method: "DELETE",
     });
 
@@ -79,7 +79,7 @@ exports.DeleteBlog = async (blogId) => {
   }
 };
 
-exports.UpdateBlog = async (blogId, formData, imgFile) => {
+exports.UpdateBlog = async (titleUrl, formData, imgFile) => {
   try {
     const data = new FormData();
 
@@ -93,7 +93,7 @@ exports.UpdateBlog = async (blogId, formData, imgFile) => {
 
     console.log("DATA: ", data);
 
-    const res = await fetch(`${ServerURL}/blog/update/${blogId}`, {
+    const res = await fetch(`${ServerURL}/blog/update/${titleUrl}`, {
       method: "PUT",
       body: data,
     });

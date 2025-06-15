@@ -14,6 +14,7 @@ const BlogSchema = new mongoose.Schema(
     titleUrl: {
       type: String,
       required: true,
+      unique: true,
     },
     heading: {
       type: String,
@@ -45,17 +46,17 @@ const BlogSchema = new mongoose.Schema(
 );
 
 // Auto-increment logic
-BlogSchema.pre("save", async function (next) {
-  if (this.isNew) {
-    const counter = await CounterModel.findOneAndUpdate(
-      { id: "task_id" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.id = counter.seq;
-  }
-  next();
-});
+// BlogSchema.pre("save", async function (next) {
+//   if (this.isNew) {
+//     const counter = await CounterModel.findOneAndUpdate(
+//       { id: "task_id" },
+//       { $inc: { seq: 1 } },
+//       { new: true, upsert: true }
+//     );
+//     this.id = counter.seq;
+//   }
+//   next();
+// });
 
 const BlogModel = mongoose.model("Blog", BlogSchema);
 
