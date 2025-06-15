@@ -49,91 +49,112 @@ const BlogForm = () => {
   };
 
   return (
-    <div className="form-page">
-      <Card className="p-4 shadow-sm">
-        <h3 className="mb-4 text-center text-primary fw-bold">
+    <>
+      <div style={styles?.mainContainer}>
+        <h3 className="" style={styles?.title}>
           📝 Create New Blog
         </h3>
-        <Form onSubmit={handleSubmit}>
-          <section className="mb-4">
-            <h5 className="text-secondary mb-3">Blog Info</h5>
-            <Row className="g-3">
-              {["title", "titleUrl", "heading", "description", "keywords"].map(
-                (field) => (
-                  <Col lg={6} key={field}>
-                    <Form.Group controlId={field}>
-                      <Form.Label className="text-capitalize">
-                        {field}
-                      </Form.Label>
+        <div className="form-page">
+          <Card className="p-4 shadow-sm">
+            <Form onSubmit={handleSubmit}>
+              <section className="mb-4">
+                <h5 className="text-secondary mb-3">Blog Info</h5>
+                <Row className="g-3">
+                  {[
+                    "title",
+                    "titleUrl",
+                    "heading",
+                    "description",
+                    "keywords",
+                  ].map((field) => (
+                    <Col lg={6} key={field}>
+                      <Form.Group controlId={field}>
+                        <Form.Label className="text-capitalize">
+                          {field}
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                          placeholder={`Enter ${field}`}
+                        />
+                      </Form.Group>
+                    </Col>
+                  ))}
+                </Row>
+              </section>
+
+              <section className="mb-4">
+                <h5 className="text-secondary mb-3">Content</h5>
+                <Form.Group>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={formData.content}
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      setFormData((prev) => ({ ...prev, content: data }));
+                    }}
+                  />
+                </Form.Group>
+              </section>
+
+              <section className="mb-4">
+                <h5 className="text-secondary mb-3">Media & Settings</h5>
+                <Row className="g-3">
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>Upload Image</Form.Label>
                       <Form.Control
-                        type="text"
-                        name={field}
-                        value={formData[field]}
-                        onChange={handleChange}
-                        placeholder={`Enter ${field}`}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
                       />
                     </Form.Group>
                   </Col>
-                )
-              )}
-            </Row>
-          </section>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>Status</Form.Label>
+                      <Form.Select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                      >
+                        <option value="inactive">Inactive</option>
+                        <option value="active">Active</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </section>
 
-          <section className="mb-4">
-            <h5 className="text-secondary mb-3">Content</h5>
-            <Form.Group>
-              <CKEditor
-                editor={ClassicEditor}
-                data={formData.content}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setFormData((prev) => ({ ...prev, content: data }));
-                }}
-              />
-            </Form.Group>
-          </section>
-
-          <section className="mb-4">
-            <h5 className="text-secondary mb-3">Media & Settings</h5>
-            <Row className="g-3">
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Upload Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label>Status</Form.Label>
-                  <Form.Select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
-                  >
-                    <option value="inactive">Inactive</option>
-                    <option value="active">Active</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-          </section>
-
-          <div className="text-end">
-            <Button type="submit" variant="primary" size="lg">
-              🚀 Publish Blog
-            </Button>
-          </div>
-        </Form>
-      </Card>
-    </div>
+              <div className="text-end">
+                <Button type="submit" variant="primary" size="lg">
+                  🚀 Publish Blog
+                </Button>
+              </div>
+            </Form>
+          </Card>
+        </div>
+      </div>
+    </>
   );
 };
 
 export default BlogForm;
+
+const styles = {
+  title: {
+    color: "#212121",
+    marginBottom: "1.5rem",
+    fontWeight: "bold",
+    fontSize: "1.75rem",
+  },
+  mainContainer: {
+    maxWidth: "1000px",
+    margin: "0 auto",
+  },
+};
 
 // import React, { useState } from "react";
 // import "../styles/TaskForm.css";

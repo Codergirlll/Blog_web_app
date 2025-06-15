@@ -48,25 +48,27 @@ const AllBlog = () => {
   }, [updateStatus]);
 
   return (
-    <Container className="my-4">
-      <Card className="p-4 shadow-sm">
-        <h3 className="mb-4 text-info text-center fw-bold">📚 All Blogs</h3>
+    <>
+    <div className="my-4" style={styles?.mainContiner}>
+    <h3 className="" style={styles?.title}>📚 All Blogs</h3>
+
+      <Card className="">
         <Table striped bordered hover responsive>
           <thead className="table-dark">
             <tr>
-              <th>Title</th>
-              <th>Title URL</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th style={styles?.th}>Title</th>
+              <th style={styles?.th}>Title URL</th>
+              <th style={styles?.th}>Status</th>
+              <th style={styles?.th}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {blogs.length > 0 ? (
               blogs.map((blog) => (
                 <tr key={blog._id}>
-                  <td>{blog.title}</td>
-                  <td>{blog.titleUrl}</td>
-                  <td>
+                  <td style={styles?.th}>{blog.title}</td>
+                  <td style={styles?.th}>{blog.titleUrl}</td>
+                  <td style={styles?.th}>
                     <span
                       className={`badge bg-${
                         blog.status === "active" ? "success" : "secondary"
@@ -75,7 +77,7 @@ const AllBlog = () => {
                       {blog.status}
                     </span>
                   </td>
-                  <td>
+                  <td style={styles?.th}>
                     <Button
                       variant="primary"
                       size="sm"
@@ -104,11 +106,29 @@ const AllBlog = () => {
           </tbody>
         </Table>
       </Card>
-    </Container>
+    </div>
+    </>
   );
 };
 
 export default AllBlog;
+const styles = {
+  mainContiner:{
+    maxWidth:"1000px",
+    margin:"0 auto"
+  },
+  title: {
+    
+    color: "#212121",
+    marginBottom: "1.5rem",
+    fontWeight: "bold",
+    fontSize: "1.75rem",
+  },
+  th:{
+    padding:"15px",
+    maxWidth:"250px"
+  }
+}
 
 // import React, { useEffect, useState } from "react";
 // import { DeleteBlog, GetAllBlogs } from "../api/blog.api";

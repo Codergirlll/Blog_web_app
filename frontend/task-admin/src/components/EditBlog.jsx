@@ -56,9 +56,12 @@ const EditForm = () => {
   }, []);
 
   return (
-    <div style={styles.pageContainer}>
+    <>
+    <div style={styles?.pageContainer}>
+    <h3 style={styles.titles}>✏️ Edit Blog</h3>
+
+    <div >
       <Card style={styles.card}>
-        <h3 style={styles.title}>✏️ Edit Blog</h3>
         <Form onSubmit={handleSubmit}>
           {/* Blog Info */}
           <section style={styles.section}>
@@ -146,6 +149,8 @@ const EditForm = () => {
         </Form>
       </Card>
     </div>
+    </div>
+    </>
   );
 };
 
@@ -153,9 +158,7 @@ const styles = {
   pageContainer: {
     maxWidth: "1000px",
     margin: "0 auto",
-    padding: "1rem",
-    backgroundColor: "#f8f9fa",
-    minHeight: "100vh",
+  
   },
   card: {
     padding: "1.5rem",
@@ -164,9 +167,9 @@ const styles = {
     boxShadow: "0 0 10px rgba(0,0,0,0.1)",
     backgroundColor: "#fff",
   },
-  title: {
-    textAlign: "center",
-    color: "#0d6efd",
+  titles: {
+    
+    color: "#212121",
     marginBottom: "1.5rem",
     fontWeight: "bold",
     fontSize: "1.75rem",
@@ -188,6 +191,7 @@ const styles = {
     padding: "0.5rem 2rem",
     fontSize: "1.1rem",
   },
+
 };
 
 export default EditForm;
