@@ -7,15 +7,15 @@ import EditForm from "./components/EditBlog";
 
 function App() {
   return (
-    <Container fluid className="bg-dark text-light">
+    <Container fluid className="" style={styles?.mainContainer}>
       <Row>
-        <Col md={3} className="vh-100 p-3" style={{ background: "#131516" }}>
+        <Col md={3} className="" style={styles?.sideContainer}>
           <Sidebar />
         </Col>
         <Col
           md={9}
-          className="d-flex justify-content-center align-items-center vh-100"
-          style={{ overflow: "auto", padding: "30px 0" }}
+          className={` `}
+          style={styles?.pageContainer}
         >
           <Routes>
             <Route path="/" element={<BlogForm />} />
@@ -30,3 +30,22 @@ function App() {
 }
 
 export default App;
+
+const styles = {
+  pageContainer: {
+  
+    height: "100vh",
+    overflow: "auto", 
+    padding: "30px 0"
+  },
+  sideContainer:{
+    height: "100vh",
+    overflow: "auto", 
+    background:"#253238",
+    padding:"0px"
+  },
+  mainContainer:{
+    background:"#f8f9fa"
+  }
+  
+};

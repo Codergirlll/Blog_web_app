@@ -49,11 +49,14 @@ const BlogForm = () => {
   };
 
   return (
-    <div className="form-page">
-      <Card className="p-4 shadow-sm">
-        <h3 className="mb-4 text-center text-primary fw-bold">
+    <>
+    <div style={styles?.mainContainer}>
+    <h3 className="" style={styles?.title}>
           📝 Create New Blog
         </h3>
+    <div className="form-page">
+      <Card className="p-4 shadow-sm">
+        
         <Form onSubmit={handleSubmit}>
           <section className="mb-4">
             <h5 className="text-secondary mb-3">Blog Info</h5>
@@ -130,10 +133,29 @@ const BlogForm = () => {
         </Form>
       </Card>
     </div>
+    </div>
+    </>
+
   );
 };
 
 export default BlogForm;
+
+const styles = {
+  title: {
+    
+    color: "#212121",
+    marginBottom: "1.5rem",
+    fontWeight: "bold",
+    fontSize: "1.75rem",
+  },
+  mainContainer:{
+  maxWidth: "1000px",
+  margin:"0 auto"
+
+
+  }
+}
 
 // import React, { useState } from "react";
 // import "../styles/TaskForm.css";
