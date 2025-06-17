@@ -1,24 +1,29 @@
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
-exports.Auth = async (req, res, next) => {
-  try {
-    let token =
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-        ? req.headers.authorization.split(" ")[1]
-        : null;
+const Auth = (req, res, next) => {
+  const token = req.cookies.token;
+  console.log("token: ", token);
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    req.user = decoded;
-    next();
-  } catch (error) {
-    console.error("Error occurred while Auth Middleware: ", error);
-
+  if (!token) {
     return res.status(401).json({
       status: false,
-      message: "Unauthorized: Invalid token",
-      error: error.message,
+      message: "Unauthorized. Token missing.",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log("decoded: ", decoded);
+
+    req.user = decoded; // you can use req.user in other routes
+    next();
+  } catch (err) {
+    return res.status(401).json({
+      status: false,
+      message: "Invalid or expired token",
     });
   }
 };
+
+module.exports = Auth;

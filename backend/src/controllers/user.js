@@ -1,48 +1,18 @@
-const UserModel = require("../db/models/user.model");
+const { EMAIL, PASSWORD, JWT_SECRET, NODE_ENV } = process.env;
+const jwt = require("jsonwebtoken");
 
-exports.Register = async (req, res, next) => {
-  const { username, email, password } = req.body;
+// Utility to create JWT token
+const createToken = (email) =>
+  jwt.sign({ email }, JWT_SECRET, { expiresIn: "10h" });
 
-  if (!username || !email || !password) {
-    return res.status(400).json({
-      status: false,
-      message: "Please provide required information for Register",
-    });
-  }
-
-  try {
-    let UserExist = await UserModel.findOne({ email });
-    if (UserExist) {
-      return res.status(200).json({
-        status: true,
-        message: "User already registered",
-      });
-    }
-
-    const newUser = await UserModel.create({ username, email, password });
-
-    if (newUser) {
-      return res.status(201).json({
-        status: true,
-        message: "User registered successfully",
-      });
-    }
-
-    res.status(500).json({
-      status: false,
-      message: "User creation failed, please try again",
-    });
-  } catch (error) {
-    // console.error("Error occurred while registering: ", error);
-
-    // res.status(500).json({
-    //   status: false,
-    //   message: "Failed to register the user",
-    //   error: error.message,
-    // });
-
-    next(error);
-  }
+// Utility to set auth cookie
+const setAuthCookie = (res, token) => {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: NODE_ENV === "staging",
+    sameSite: "Strict",
+    maxAge: 10 * 60 * 60 * 1000, // 10 hours
+  });
 };
 
 exports.Login = async (req, res, next) => {
@@ -56,39 +26,15 @@ exports.Login = async (req, res, next) => {
       });
     }
 
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      return res.status(404).json({
-        status: false,
-        message: "User not found",
-      });
-    }
-
-    // Compare password
-    const isMatched = await user.comparePassword(password, user.password);
-    if (!isMatched) {
+    if (email !== EMAIL || password !== PASSWORD) {
       return res.status(401).json({
         status: false,
-        message: "Invalid credentials",
+        message: "Invalid login credentials",
       });
     }
 
-    // Generate Token
-    const token = user.CreateToken();
-    if (!token) {
-      return res.status(500).json({
-        status: false,
-        message: "Failed to generate token",
-      });
-    }
-
-    // Set cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "staging",
-      sameSite: "Strict",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
-    });
+    const token = createToken(email);
+    setAuthCookie(res, token);
 
     return res.status(200).json({
       status: true,
@@ -96,15 +42,7 @@ exports.Login = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    // console.error("Error occurred while log in: ", error);
-    // return res.status(500).json({
-    //   status: false,
-    //   message: "Internal server error",
-    //   error: error.message,
-    // });
-
+    console.error("Login error:", error);
     next(error);
   }
 };
-
-

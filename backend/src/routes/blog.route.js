@@ -7,8 +7,11 @@ const {
   GetBlogById,
 } = require("../controllers/blog");
 const uploadMiddleware = require("../middlewares/upload.middleware");
+const Auth = require("../middlewares/auth");
 
 const blogRouter = express.Router();
+
+blogRouter.use(Auth);
 
 blogRouter.post("/add/blog", uploadMiddleware, AddBlog);
 blogRouter.get("/get/allblogs", GetBlogs);

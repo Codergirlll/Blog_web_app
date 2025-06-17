@@ -2,7 +2,7 @@ const BlogModel = require("../db/models/blog.model");
 let taskIdCounter = 1;
 
 exports.AddBlog = async (req, res, next) => {
-  console.log("hello AddUser", req.body);
+  // console.log("hello AddUser", req.body);
   try {
     let { title, titleUrl, heading, description, keywords, content, status } =
       req.body;
