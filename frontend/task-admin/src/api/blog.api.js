@@ -132,3 +132,21 @@ exports.UpdateBlog = async (titleUrl, formData, imgFile) => {
     return { success: false, error: error.message };
   }
 };
+
+exports.Logout = async () => {
+  try {
+    const res = await fetch(`${ServerURL}/logout`, {
+      method: "POST",
+      credentials: "include", // important for cookies
+      headers: {
+        "Content-Type": "application/json", // optional here, but safe
+      },
+    });
+
+    const updateData = await res.json();
+    return { success: true, updateData };
+  } catch (error) {
+    console.error("API error:", error);
+    return { success: false, error: error.message };
+  }
+};

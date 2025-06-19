@@ -8,7 +8,7 @@ const createToken = (email) =>
 // Utility to set auth cookie
 const setAuthCookie = (res, token) => {
   res.cookie("token", token, {
-    httpOnly: true,
+    httpOnly: false,
     secure: NODE_ENV === "staging",
     sameSite: "Strict",
     maxAge: 10 * 60 * 60 * 1000, // 10 hours
@@ -44,5 +44,26 @@ exports.Login = async (req, res, next) => {
   } catch (error) {
     console.error("Login error:", error);
     next(error);
+  }
+};
+
+exports.Logout = async (req, res, next) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: false, // same as used during login
+      secure: NODE_ENV === "staging",
+      sameSite: "Strict", // match the login cookie settings
+    });
+
+    return res.status(200).json({
+      status: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+    return res.status(500).json({
+      status: false,
+      message: "Something went wrong during logout",
+    });
   }
 };

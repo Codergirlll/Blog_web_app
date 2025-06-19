@@ -33,7 +33,7 @@ function Login() {
       console.log("Login Response:", response);
 
       if (response.success) {
-        alert("Login successful!");
+        // alert("Login successful!");
         navigate("/");
       } else {
         alert("Invalid credentials");
