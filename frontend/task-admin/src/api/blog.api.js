@@ -137,7 +137,7 @@ exports.Logout = async () => {
   try {
     const res = await fetch(`${ServerURL}/logout`, {
       method: "POST",
-      credentials: "include", // important for cookies
+      credentials: "include", // important for cookies ok
       headers: {
         "Content-Type": "application/json", // optional here, but safe
       },
